@@ -27,15 +27,6 @@ style: |
 
 ---
 
-<!-- _class: phase -->
-
-# A
-## スペースの設定を開く
-
-Google Chat のスペースから設定画面へ
-
----
-
 ### <span class="step-num">1</span> 「通知用」スペースをクリック
 
 ![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/48542618-b1fb-442e-b155-d44caf6f66f7/6ed6414a-0603-42bb-b0ba-f6e10bb633d2.png?crop=focalpoint&fit=crop&fp-x=0.4155&fp-y=0.1237&fp-z=2.0536&w=1200)
@@ -49,15 +40,6 @@ Google Chat のスペースから設定画面へ
 ![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/c3e5cf73-f8b5-4bdd-b92a-d958b00ee5cd/818b4e67-45f8-416b-9ca6-86d34afbf914.png?crop=focalpoint&fit=crop&fp-x=0.4472&fp-y=0.4278&fp-z=1.8528&w=1200)
 
 <div class="note">スペースの設定メニューから「アプリと統合」を選択</div>
-
----
-
-<!-- _class: phase -->
-
-# B
-## Webhook を追加・保存
-
-Webhook 名を入力して保存
 
 ---
 
@@ -78,15 +60,6 @@ Webhook 名を入力して保存
 ### <span class="step-num">5</span> 「保存」をクリック
 
 ![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/10d66124-c18b-4635-8f22-417a9ae739e0/80365166-985f-4b92-9152-393e8739b2c8.png?crop=focalpoint&fit=crop&fp-x=0.7361&fp-y=0.6598&fp-z=2.7635&w=1200)
-
----
-
-<!-- _class: phase -->
-
-# C
-## URL をコピー
-
-Webhook の URL を取得して連携に使用
 
 ---
 
