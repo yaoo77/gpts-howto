@@ -6,370 +6,398 @@
 <title>GPTsの作り方 - ステップバイステップガイド</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: 'Helvetica Neue', 'Noto Sans JP', sans-serif; background: #0d0d0d; color: #e0e0e0; line-height: 1.8; }
+  body { font-family: 'Helvetica Neue', 'Noto Sans JP', sans-serif; background: #0d0d0d; color: #e0e0e0; overflow: hidden; height: 100vh; }
 
-  .hero {
-    min-height: 70vh;
+  /* Slide container */
+  .slides { position: relative; width: 100%; height: 100vh; }
+  .slide {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
-    text-align: center;
-    padding: 80px 24px;
-    background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%);
-    border-bottom: 1px solid #222;
+    padding: 48px 64px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.4s ease;
   }
-  .hero-badge { display: inline-block; padding: 6px 16px; border: 1px solid #444; border-radius: 20px; font-size: 13px; color: #888; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
-  .hero h1 { font-size: clamp(36px, 6vw, 64px); font-weight: 800; color: #fff; letter-spacing: -1px; margin-bottom: 16px; }
-  .hero p { font-size: 18px; color: #888; max-width: 560px; }
+  .slide.active { opacity: 1; pointer-events: auto; }
 
-  .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+  /* Title slide */
+  .slide-title { text-align: center; }
+  .slide-title .badge { display: inline-block; padding: 6px 16px; border: 1px solid #444; border-radius: 20px; font-size: 13px; color: #888; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 24px; }
+  .slide-title h1 { font-size: 64px; font-weight: 800; color: #fff; letter-spacing: -1px; margin-bottom: 16px; }
+  .slide-title p { font-size: 20px; color: #888; max-width: 600px; }
 
-  .toc { padding: 64px 0; border-bottom: 1px solid #1a1a1a; }
-  .toc h2 { font-size: 14px; color: #666; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 24px; }
-  .toc-list { list-style: none; display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
-  .toc-list li { padding: 10px 0; border-bottom: 1px solid #1a1a1a; }
-  .toc-list a { color: #ccc; text-decoration: none; font-size: 15px; display: flex; align-items: center; gap: 10px; transition: color 0.2s; }
-  .toc-list a:hover { color: #fff; }
-  .toc-num { font-family: 'Courier New', monospace; font-size: 12px; color: #555; min-width: 24px; }
+  /* Phase slide */
+  .slide-phase { text-align: left; max-width: 800px; }
+  .slide-phase .letter { font-family: 'Courier New', monospace; font-size: 120px; font-weight: 800; color: #1a1a1a; line-height: 1; }
+  .slide-phase h2 { font-size: 40px; font-weight: 700; color: #fff; margin-top: -20px; }
+  .slide-phase p { font-size: 18px; color: #666; margin-top: 8px; }
 
-  .phase-header {
-    padding: 72px 0 32px;
+  /* Step slide */
+  .slide-step { max-width: 960px; width: 100%; }
+  .slide-step .step-header {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 20px;
   }
-  .phase-header .num { font-family: 'Courier New', monospace; font-size: 72px; font-weight: 800; color: #1a1a1a; line-height: 1; }
-  .phase-header h2 { font-size: 28px; font-weight: 700; color: #fff; margin-top: -12px; }
-  .phase-header p { font-size: 14px; color: #666; margin-top: 6px; }
-
-  .step-card {
-    padding: 32px 0;
-    border-bottom: 1px solid #1a1a1a;
-  }
-  .step-card-header {
-    display: flex; align-items: center; gap: 12px;
-    margin-bottom: 16px;
-  }
-  .step-num {
+  .slide-step .step-num {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 32px; height: 32px;
+    width: 40px; height: 40px;
     background: #fff; color: #000;
-    font-size: 14px; font-weight: 800;
-    border-radius: 6px;
-    flex-shrink: 0;
+    font-size: 18px; font-weight: 800;
+    border-radius: 8px; flex-shrink: 0;
   }
-  .step-card-header h3 { font-size: 18px; font-weight: 600; color: #fff; }
-  .step-card img {
-    width: 100%;
-    max-width: 720px;
-    border-radius: 12px;
-    border: 1px solid #222;
-    margin-top: 8px;
+  .slide-step h3 { font-size: 24px; font-weight: 700; color: #fff; }
+  .slide-step img {
+    width: 100%; max-height: 55vh; object-fit: contain;
+    border-radius: 12px; border: 1px solid #222;
   }
-  .step-note {
-    margin-top: 12px;
-    padding: 12px 16px;
-    background: #141414;
-    border-left: 3px solid #333;
+  .slide-step .note {
+    margin-top: 16px; padding: 12px 16px;
+    background: #141414; border-left: 3px solid #333;
     border-radius: 0 8px 8px 0;
-    font-size: 14px;
-    color: #999;
+    font-size: 15px; color: #999;
   }
 
-  .tip-box {
-    margin: 32px 0;
-    padding: 20px 24px;
-    background: #141414;
-    border: 1px solid #222;
-    border-radius: 12px;
+  /* Tip slide */
+  .slide-tip { max-width: 700px; text-align: left; }
+  .slide-tip h3 { font-size: 28px; color: #fff; margin-bottom: 24px; }
+  .slide-tip .tip-item {
+    padding: 16px 0; border-bottom: 1px solid #1a1a1a;
   }
-  .tip-box strong { color: #ccc; }
-  .tip-box p { font-size: 14px; color: #999; margin-top: 4px; }
+  .slide-tip .tip-item strong { color: #fff; font-size: 16px; }
+  .slide-tip .tip-item p { color: #999; font-size: 15px; margin-top: 4px; }
 
-  .example-card {
-    margin: 48px 0;
-    padding: 32px;
-    background: #141414;
-    border: 1px solid #222;
-    border-radius: 16px;
-  }
-  .example-card h3 { font-size: 20px; color: #fff; margin-bottom: 16px; }
-  .example-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .example-meta dt { font-size: 12px; color: #666; letter-spacing: 1px; text-transform: uppercase; }
-  .example-meta dd { font-size: 15px; color: #ccc; margin-bottom: 12px; }
+  /* Example slide */
+  .slide-example { max-width: 700px; }
+  .slide-example h3 { font-size: 28px; color: #fff; margin-bottom: 24px; }
+  .slide-example dl { display: grid; grid-template-columns: 120px 1fr; gap: 12px 24px; }
+  .slide-example dt { font-size: 12px; color: #666; letter-spacing: 1px; text-transform: uppercase; padding-top: 4px; }
+  .slide-example dd { font-size: 17px; color: #ccc; }
 
-  .cta { text-align: center; padding: 80px 0; }
-  .cta h2 { font-size: 28px; color: #fff; margin-bottom: 12px; }
-  .cta p { font-size: 15px; color: #666; margin-bottom: 32px; }
-  .cta a {
+  /* CTA slide */
+  .slide-cta { text-align: center; }
+  .slide-cta h2 { font-size: 36px; color: #fff; margin-bottom: 12px; }
+  .slide-cta p { font-size: 16px; color: #666; margin-bottom: 32px; }
+  .slide-cta a {
     display: inline-block; padding: 14px 40px;
     background: #fff; color: #000;
     text-decoration: none; font-weight: 700; font-size: 15px;
     border-radius: 8px; transition: opacity 0.2s;
   }
-  .cta a:hover { opacity: 0.85; }
+  .slide-cta a:hover { opacity: 0.85; }
 
-  footer { text-align: center; padding: 40px 0; font-size: 13px; color: #444; border-top: 1px solid #1a1a1a; }
+  /* Navigation */
+  .nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 32px;
+    background: linear-gradient(transparent, rgba(0,0,0,0.8));
+    z-index: 100;
+  }
+  .nav-btn {
+    background: none; border: 1px solid #333; color: #ccc;
+    width: 48px; height: 48px; border-radius: 50%;
+    font-size: 20px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { background: #222; color: #fff; border-color: #555; }
+  .nav-btn:disabled { opacity: 0.2; cursor: default; }
 
-  @media (max-width: 640px) {
-    .toc-list { grid-template-columns: 1fr; }
-    .example-meta { grid-template-columns: 1fr; }
+  .progress-wrap {
+    flex: 1; max-width: 400px; margin: 0 24px; text-align: center;
+  }
+  .progress-bar {
+    width: 100%; height: 3px; background: #1a1a1a; border-radius: 2px; overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; background: #fff; transition: width 0.3s ease; border-radius: 2px;
+  }
+  .progress-text {
+    font-size: 12px; color: #555; margin-top: 6px;
+    font-family: 'Courier New', monospace;
+  }
+
+  /* Keyboard hint */
+  .kbd-hint {
+    position: fixed; top: 16px; right: 24px;
+    font-size: 12px; color: #333; z-index: 100;
+  }
+  .kbd-hint kbd {
+    display: inline-block; padding: 2px 8px;
+    background: #1a1a1a; border: 1px solid #333; border-radius: 4px;
+    font-family: 'Courier New', monospace; font-size: 11px; color: #666;
   }
 </style>
 </head>
 <body>
 
-<div class="hero">
-  <span class="hero-badge">Step-by-Step Tutorial</span>
-  <h1>GPTsの作り方</h1>
-  <p>ChatGPTをカスタマイズして、自分だけのAIアシスタントを作る全手順を解説します</p>
-</div>
+<div class="kbd-hint"><kbd>&larr;</kbd> <kbd>&rarr;</kbd> で移動</div>
 
-<div class="container">
+<div class="slides" id="slides">
 
-  <div class="toc">
-    <h2>Contents</h2>
-    <ol class="toc-list">
-      <li><a href="#phase-a"><span class="toc-num">A</span>GPT作成画面を開く</a></li>
-      <li><a href="#phase-b"><span class="toc-num">B</span>構成を設定する</a></li>
-      <li><a href="#phase-c"><span class="toc-num">C</span>公開・保存する</a></li>
-      <li><a href="#phase-d"><span class="toc-num">D</span>モデル・詳細設定</a></li>
-      <li><a href="#phase-e"><span class="toc-num">E</span>更新して完成</a></li>
-      <li><a href="#tips"><span class="toc-num">+</span>活用のコツ</a></li>
-    </ol>
+  <!-- 0: Title -->
+  <div class="slide slide-title active">
+    <span class="badge">Step-by-Step Tutorial</span>
+    <h1>GPTsの作り方</h1>
+    <p>ChatGPTをカスタマイズして、自分だけのAIアシスタントを作る全手順</p>
   </div>
 
-  <!-- ===== Phase A: GPT作成画面を開く ===== -->
-  <div class="phase-header" id="phase-a">
-    <div class="num">A</div>
+  <!-- 1: Phase A -->
+  <div class="slide slide-phase">
+    <div class="letter">A</div>
     <h2>GPT作成画面を開く</h2>
     <p>ChatGPTのサイドバーからGPT作成画面にたどり着くまで</p>
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">1</span><h3>「ChatGPT」のロゴをクリック</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/35159c15-923a-4a7e-a05e-25312e23673a/d9391e3e-ca4d-4637-9723-12d8d2cd6999.png?crop=focalpoint&fit=crop&fp-x=0.1037&fp-y=0.0335&fp-z=2.4476&w=1200" alt="Step 1" loading="lazy">
-    <div class="step-note">ホーム画面の左上にあるChatGPTのロゴをクリックします</div>
+  <!-- 2-14: Steps 1-13 -->
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">1</span><h3>「ChatGPT」のロゴをクリック</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/35159c15-923a-4a7e-a05e-25312e23673a/d9391e3e-ca4d-4637-9723-12d8d2cd6999.png?crop=focalpoint&fit=crop&fp-x=0.1037&fp-y=0.0335&fp-z=2.4476&w=1200" alt="Step 1">
+    <div class="note">ホーム画面の左上にあるChatGPTのロゴをクリック</div>
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">2</span><h3>プロフィールアイコンをクリック</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/a1a90ab2-9095-4156-8070-d647389f2201/801d2e18-382c-4634-b92b-46cb73ec0934.png?crop=focalpoint&fit=crop&fp-x=0.0238&fp-y=0.9613&fp-z=2.9360&w=1200" alt="Step 2" loading="lazy">
-    <div class="step-note">左下のプロフィールアイコンをクリックしてサイドバーを開きます</div>
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">2</span><h3>プロフィールアイコンをクリック</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/a1a90ab2-9095-4156-8070-d647389f2201/801d2e18-382c-4634-b92b-46cb73ec0934.png?crop=focalpoint&fit=crop&fp-x=0.0238&fp-y=0.9613&fp-z=2.9360&w=1200" alt="Step 2">
+    <div class="note">左下のプロフィールアイコンでサイドバーを開く</div>
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">3</span><h3>サイドバーの「画像」が見える状態にする</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/f82b9a07-6996-4e2f-9d27-e63804b3f04c/9e4287ab-d8f8-424b-a8da-9b6926ca8148.png?crop=focalpoint&fit=crop&fp-x=0.0229&fp-y=0.1933&fp-z=2.8035&w=1200" alt="Step 3" loading="lazy">
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">3</span><h3>サイドバーが表示される</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/f82b9a07-6996-4e2f-9d27-e63804b3f04c/9e4287ab-d8f8-424b-a8da-9b6926ca8148.png?crop=focalpoint&fit=crop&fp-x=0.0229&fp-y=0.1933&fp-z=2.8035&w=1200" alt="Step 3">
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">4</span><h3>サイドバーを開く</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/851586e3-c5b4-4a03-b608-ee6dff2bfc33/dde111ee-7586-4ef6-bf81-5f7c6b8ec127.png?crop=focalpoint&fit=crop&fp-x=0.0229&fp-y=0.0335&fp-z=2.8035&w=1200" alt="Step 4" loading="lazy">
-    <div class="step-note">左上のハンバーガーアイコンでサイドバーを展開します</div>
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">4</span><h3>サイドバーを開く</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/851586e3-c5b4-4a03-b608-ee6dff2bfc33/dde111ee-7586-4ef6-bf81-5f7c6b8ec127.png?crop=focalpoint&fit=crop&fp-x=0.0229&fp-y=0.0335&fp-z=2.8035&w=1200" alt="Step 4">
+    <div class="note">左上のハンバーガーアイコンでサイドバーを展開</div>
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">5</span><h3>「アプリ」をクリック</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/6007d0fd-55cd-41c4-9462-dff4d8e2d36e/df6b1a9e-6c13-4ef6-b860-081a356c2150.png?crop=focalpoint&fit=crop&fp-x=0.1147&fp-y=0.2397&fp-z=1.9013&w=1200" alt="Step 5" loading="lazy">
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">5</span><h3>「アプリ」をクリック</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/6007d0fd-55cd-41c4-9462-dff4d8e2d36e/df6b1a9e-6c13-4ef6-b860-081a356c2150.png?crop=focalpoint&fit=crop&fp-x=0.1147&fp-y=0.2397&fp-z=1.9013&w=1200" alt="Step 5">
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">6</span><h3>アプリページが表示される</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/78ce9044-e90f-495a-af49-c6334e036c32/26011224-2cd3-4f44-b474-4061fc677ffa.png?crop=focalpoint&fit=crop&fp-x=0.6121&fp-y=0.1765&fp-z=1.2919&w=1200" alt="Step 6" loading="lazy">
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">6</span><h3>アプリページが表示される</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/78ce9044-e90f-495a-af49-c6334e036c32/26011224-2cd3-4f44-b474-4061fc677ffa.png?crop=focalpoint&fit=crop&fp-x=0.6121&fp-y=0.1765&fp-z=1.2919&w=1200" alt="Step 6">
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">7</span><h3>右上の「管理する」をクリック（不要）</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/780a241a-5751-4272-9439-a413ee35352c/22ace03f-e5fc-4ce0-b893-d19fb5482614.png?crop=focalpoint&fit=crop&fp-x=0.9771&fp-y=0.0335&fp-z=2.8035&w=1200" alt="Step 7" loading="lazy">
-    <div class="step-note">ここはアプリ管理画面です。GPT作成には使わないので閉じます</div>
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">7</span><h3>右上の「管理する」（不要 - スキップ可）</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/780a241a-5751-4272-9439-a413ee35352c/22ace03f-e5fc-4ce0-b893-d19fb5482614.png?crop=focalpoint&fit=crop&fp-x=0.9771&fp-y=0.0335&fp-z=2.8035&w=1200" alt="Step 7">
+    <div class="note">アプリ管理画面。GPT作成には使わないので閉じます</div>
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">8</span><h3>管理画面を閉じる</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/062b4c96-55c0-4109-afa6-06c350b721cb/bfbab9d7-17a5-4f3d-b428-cdb18d09ea84.png?crop=focalpoint&fit=crop&fp-x=0.2251&fp-y=0.1392&fp-z=2.8035&w=1200" alt="Step 8" loading="lazy">
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">8</span><h3>管理画面を閉じる</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/062b4c96-55c0-4109-afa6-06c350b721cb/bfbab9d7-17a5-4f3d-b428-cdb18d09ea84.png?crop=focalpoint&fit=crop&fp-x=0.2251&fp-y=0.1392&fp-z=2.8035&w=1200" alt="Step 8">
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">9</span><h3>サイドバーのドロップダウンを開く</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/6edd8092-853d-40c1-9d93-338b52862fca/3656e8db-da80-4632-aa81-ba8a82536112.png?crop=focalpoint&fit=crop&fp-x=0.1147&fp-y=0.3737&fp-z=1.9013&w=1200" alt="Step 9" loading="lazy">
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">9</span><h3>サイドバーのドロップダウンを開く</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/6edd8092-853d-40c1-9d93-338b52862fca/3656e8db-da80-4632-aa81-ba8a82536112.png?crop=focalpoint&fit=crop&fp-x=0.1147&fp-y=0.3737&fp-z=1.9013&w=1200" alt="Step 9">
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">10</span><h3>「GPT」セクションをクリック</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/1b5004f4-46e8-4fa9-a886-5366b4d00a13/bca5f1f0-0248-413c-abff-83846a3eb4fa.png?crop=focalpoint&fit=crop&fp-x=0.1200&fp-y=0.3918&fp-z=1.8638&w=1200" alt="Step 10" loading="lazy">
-    <div class="step-note">サイドバーの「GPT」セクションを展開して、自分のGPT一覧を表示します</div>
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">10</span><h3>「GPT」セクションをクリック</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/1b5004f4-46e8-4fa9-a886-5366b4d00a13/bca5f1f0-0248-413c-abff-83846a3eb4fa.png?crop=focalpoint&fit=crop&fp-x=0.1200&fp-y=0.3918&fp-z=1.8638&w=1200" alt="Step 10">
+    <div class="note">「GPT」セクションを展開してGPT一覧を表示</div>
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">11</span><h3>GPT一覧が表示される</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/11f69e0f-f308-428c-90e0-b1f748d54540/57f20b98-8699-4e50-8599-2cf32c554b9c.png?crop=focalpoint&fit=crop&fp-x=0.6121&fp-y=0.5000&fp-z=1.0026&w=1200" alt="Step 11" loading="lazy">
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">11</span><h3>GPT一覧が表示される</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/11f69e0f-f308-428c-90e0-b1f748d54540/57f20b98-8699-4e50-8599-2cf32c554b9c.png?crop=focalpoint&fit=crop&fp-x=0.6121&fp-y=0.5000&fp-z=1.0026&w=1200" alt="Step 11">
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">12</span><h3>もう一度「GPT」をクリック</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/24d8c07f-4a38-42cd-9621-e8de39224c32/8c03eed8-db77-4c14-9075-501dfda83ebf.png?crop=focalpoint&fit=crop&fp-x=0.1200&fp-y=0.3918&fp-z=1.8638&w=1200" alt="Step 12" loading="lazy">
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">12</span><h3>もう一度「GPT」をクリック</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/24d8c07f-4a38-42cd-9621-e8de39224c32/8c03eed8-db77-4c14-9075-501dfda83ebf.png?crop=focalpoint&fit=crop&fp-x=0.1200&fp-y=0.3918&fp-z=1.8638&w=1200" alt="Step 12">
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">13</span><h3>「GPT を作成する」をクリック</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/221cfd60-9342-45e9-a62e-b2e7cd870bba/5c0babd4-4e7f-4f08-85f2-4b3379532bf6.png?crop=focalpoint&fit=crop&fp-x=0.6152&fp-y=0.2088&fp-z=1.4022&w=1200" alt="Step 13" loading="lazy">
-    <div class="step-note">マイGPTページの一番上にある「GPTを作成する」をクリックします</div>
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">13</span><h3>「GPT を作成する」をクリック</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/221cfd60-9342-45e9-a62e-b2e7cd870bba/5c0babd4-4e7f-4f08-85f2-4b3379532bf6.png?crop=focalpoint&fit=crop&fp-x=0.6152&fp-y=0.2088&fp-z=1.4022&w=1200" alt="Step 13">
+    <div class="note">「GPTを作成する」をクリックしてエディタを開く</div>
   </div>
 
-  <!-- ===== Phase B: 構成を設定する ===== -->
-  <div class="phase-header" id="phase-b">
-    <div class="num">B</div>
+  <!-- 15: Phase B -->
+  <div class="slide slide-phase">
+    <div class="letter">B</div>
     <h2>構成を設定する</h2>
     <p>名前・説明・指示（プロンプト）を入力する</p>
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">14</span><h3>「構成」タブをクリック</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/247c61bb-6431-4b29-a755-f387af05637f/81624f54-6bc0-4ac4-b44c-12cd6c2d580c.png?crop=focalpoint&fit=crop&fp-x=0.3080&fp-y=0.1147&fp-z=2.3609&w=1200" alt="Step 14" loading="lazy">
-    <div class="step-note">「作成する」タブはAIとの対話で作る方式。「構成」タブは直接入力で設定できます</div>
+  <!-- 16-17: Steps 14-15 -->
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">14</span><h3>「構成」タブをクリック</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/247c61bb-6431-4b29-a755-f387af05637f/81624f54-6bc0-4ac4-b44c-12cd6c2d580c.png?crop=focalpoint&fit=crop&fp-x=0.3080&fp-y=0.1147&fp-z=2.3609&w=1200" alt="Step 14">
+    <div class="note">「構成」タブなら直接入力で設定できます</div>
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">15</span><h3>名前を入力する</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/5ce54c52-ea9a-46f7-a15a-6acf56adb026/7b50ccd5-de20-4db5-8772-b96c62f3d7cf.png?crop=focalpoint&fit=crop&fp-x=0.2502&fp-y=0.3479&fp-z=1.2833&w=1200" alt="Step 15" loading="lazy">
-    <div class="step-note">GPTの名前・説明・指示を入力します。指示欄にはGPTの振る舞いを定義するプロンプトを書きます</div>
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">15</span><h3>名前・説明・指示を入力</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/5ce54c52-ea9a-46f7-a15a-6acf56adb026/7b50ccd5-de20-4db5-8772-b96c62f3d7cf.png?crop=focalpoint&fit=crop&fp-x=0.2502&fp-y=0.3479&fp-z=1.2833&w=1200" alt="Step 15">
+    <div class="note">指示欄にはGPTの振る舞いを定義するプロンプトを書きます</div>
   </div>
 
-  <div class="tip-box">
-    <strong>指示（プロンプト）の書き方のコツ</strong>
-    <p>1. 役割を定義:「あなたは〇〇の専門家です」</p>
-    <p>2. ルールを箇条書きで列挙する</p>
-    <p>3. 対応パターンを網羅する（新規・返信・お詫び等）</p>
-    <p>4. 出力形式を指定する（コードブロック・表形式等）</p>
-  </div>
-
-  <!-- ===== Phase C: 公開・保存する ===== -->
-  <div class="phase-header" id="phase-c">
-    <div class="num">C</div>
+  <!-- 18: Phase C -->
+  <div class="slide slide-phase">
+    <div class="letter">C</div>
     <h2>公開・保存する</h2>
     <p>公開範囲を選んで最初の保存を行う</p>
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">16</span><h3>右上の「作成する」をクリック</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/84438e6d-8e5a-477a-afe0-01ebb68588c2/31221f83-1f80-416d-9bc0-7ed9a958f719.png?crop=focalpoint&fit=crop&fp-x=0.9532&fp-y=0.0361&fp-z=2.8035&w=1200" alt="Step 16" loading="lazy">
-    <div class="step-note">全項目を入力したら右上の「作成する」ボタンをクリック</div>
+  <!-- 19-21: Steps 16-18 -->
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">16</span><h3>右上の「作成する」をクリック</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/84438e6d-8e5a-477a-afe0-01ebb68588c2/31221f83-1f80-416d-9bc0-7ed9a958f719.png?crop=focalpoint&fit=crop&fp-x=0.9532&fp-y=0.0361&fp-z=2.8035&w=1200" alt="Step 16">
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">17</span><h3>公開範囲を選んで「保存する」</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/16893220-f400-4c70-89bd-6c3c9774fb11/3a401104-d626-4fd0-8c3c-29602b4fe12b.png?crop=focalpoint&fit=crop&fp-x=0.6478&fp-y=0.6765&fp-z=2.6355&w=1200" alt="Step 17" loading="lazy">
-    <div class="step-note">「自分だけ」「リンクを受け取った人」「GPTストア」から選べます。共有したい場合は「リンクを受け取った人」がおすすめ</div>
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">17</span><h3>公開範囲を選んで「保存する」</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/16893220-f400-4c70-89bd-6c3c9774fb11/3a401104-d626-4fd0-8c3c-29602b4fe12b.png?crop=focalpoint&fit=crop&fp-x=0.6478&fp-y=0.6765&fp-z=2.6355&w=1200" alt="Step 17">
+    <div class="note">「リンクを受け取った人」なら共有リンクで誰でも使えます</div>
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">18</span><h3>保存完了ダイアログを閉じる</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/c9e4a6e1-5688-432d-9c1d-a0229f8875c5/49e165de-0f8e-4ad6-8de8-beafed1f9a04.png?crop=focalpoint&fit=crop&fp-x=0.6734&fp-y=0.3892&fp-z=2.8035&w=1200" alt="Step 18" loading="lazy">
-    <div class="step-note">共有リンクが表示されます。コピーして共有できます</div>
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">18</span><h3>保存完了 - リンクをコピー</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/c9e4a6e1-5688-432d-9c1d-a0229f8875c5/49e165de-0f8e-4ad6-8de8-beafed1f9a04.png?crop=focalpoint&fit=crop&fp-x=0.6734&fp-y=0.3892&fp-z=2.8035&w=1200" alt="Step 18">
+    <div class="note">共有リンクが発行されます。コピーして共有可能</div>
   </div>
 
-  <!-- ===== Phase D: モデル・詳細設定 ===== -->
-  <div class="phase-header" id="phase-d">
-    <div class="num">D</div>
+  <!-- 22: Phase D -->
+  <div class="slide slide-phase">
+    <div class="letter">D</div>
     <h2>モデル・詳細設定</h2>
-    <p>プレビューでモデルを選び、会話のきっかけを追加する</p>
+    <p>推奨モデルの選択と会話のきっかけを追加する</p>
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">19</span><h3>プレビュー画面を確認</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/35045e7a-094b-4c04-a952-4b13755714c6/1444ce2d-a9e8-4f24-b082-8592544756b3.png?crop=focalpoint&fit=crop&fp-x=0.7476&fp-y=0.5322&fp-z=1.0718&w=1200" alt="Step 19" loading="lazy">
-    <div class="step-note">右側にGPTのプレビューが表示されます。ここで実際の見え方を確認</div>
+  <!-- 23-28: Steps 19-25 -->
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">19</span><h3>プレビュー画面を確認</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/35045e7a-094b-4c04-a952-4b13755714c6/1444ce2d-a9e8-4f24-b082-8592544756b3.png?crop=focalpoint&fit=crop&fp-x=0.7476&fp-y=0.5322&fp-z=1.0718&w=1200" alt="Step 19">
+    <div class="note">右側でGPTの実際の見え方を確認できます</div>
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">20</span><h3>「モデル」をクリック</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/f04ae688-f004-4005-a1c5-40e570bada9c/19423f20-7a9b-4b60-812d-21f56533672e.png?crop=focalpoint&fit=crop&fp-x=0.8186&fp-y=0.1211&fp-z=2.8035&w=1200" alt="Step 20" loading="lazy">
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">20</span><h3>「モデル」をクリック</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/f04ae688-f004-4005-a1c5-40e570bada9c/19423f20-7a9b-4b60-812d-21f56533672e.png?crop=focalpoint&fit=crop&fp-x=0.8186&fp-y=0.1211&fp-z=2.8035&w=1200" alt="Step 20">
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">21</span><h3>「Instant」を選択</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/831f5631-d283-4744-9a00-420985cb4384/f23cc2ba-fa84-4b92-b81c-a13433a9e9dd.png?crop=focalpoint&fit=crop&fp-x=0.8588&fp-y=0.2313&fp-z=2.6594&w=1200" alt="Step 21" loading="lazy">
-    <div class="step-note">メール作成のような定型タスクには「Instant」が高速でおすすめ。複雑な推論が必要な場合は「Thinking」を選びます</div>
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">21</span><h3>「Instant」を選択</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/831f5631-d283-4744-9a00-420985cb4384/f23cc2ba-fa84-4b92-b81c-a13433a9e9dd.png?crop=focalpoint&fit=crop&fp-x=0.8588&fp-y=0.2313&fp-z=2.6594&w=1200" alt="Step 21">
+    <div class="note">定型タスクには Instant（高速）、推論が必要なら Thinking を選択</div>
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">22</span><h3>会話のきっかけの設定エリアを確認</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/994a4b0c-9a4c-414f-aaeb-f5f2ba92550a/b5338613-47f4-4622-94da-fbc50ae8ac24.png?crop=focalpoint&fit=crop&fp-x=0.4713&fp-y=0.5786&fp-z=2.8035&w=1200" alt="Step 22" loading="lazy">
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">22</span><h3>会話のきっかけエリア</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/994a4b0c-9a4c-414f-aaeb-f5f2ba92550a/b5338613-47f4-4622-94da-fbc50ae8ac24.png?crop=focalpoint&fit=crop&fp-x=0.4713&fp-y=0.5786&fp-z=2.8035&w=1200" alt="Step 22">
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">23</span><h3>会話のきっかけを入力</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/4672b686-49b7-4ab1-b562-77cbc2d395c4/e43db45b-656e-4215-b0f0-7279c1dfb32c.png?crop=focalpoint&fit=crop&fp-x=0.4722&fp-y=0.5786&fp-z=3.0218&w=1200" alt="Step 23" loading="lazy">
-    <div class="step-note">ユーザーが最初にクリックできる例文を3つ程度入力します。具体的なユースケースがベスト</div>
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">23</span><h3>会話のきっかけを入力</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/4672b686-49b7-4ab1-b562-77cbc2d395c4/e43db45b-656e-4215-b0f0-7279c1dfb32c.png?crop=focalpoint&fit=crop&fp-x=0.4722&fp-y=0.5786&fp-z=3.0218&w=1200" alt="Step 23">
+    <div class="note">具体的なユースケースを3つ程度設定しましょう</div>
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">24</span><h3>指示の全文プレビューを確認</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/220bf17f-2ad2-4b35-8dff-3a531090a09a/b7e8f84a-661e-4b8e-a618-8c5a65d4437e.png?crop=focalpoint&fit=crop&fp-x=0.4996&fp-y=0.8557&fp-z=1.1240&w=1200" alt="Step 24" loading="lazy">
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">24</span><h3>指示の全文を確認</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/220bf17f-2ad2-4b35-8dff-3a531090a09a/b7e8f84a-661e-4b8e-a618-8c5a65d4437e.png?crop=focalpoint&fit=crop&fp-x=0.4996&fp-y=0.8557&fp-z=1.1240&w=1200" alt="Step 24">
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">25</span><h3>プレビューを閉じる</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/d799f610-97d3-40d7-8997-0204b1942c5d/80cf9b4f-4419-4d8f-84d1-6d3c7b7290b2.png?crop=focalpoint&fit=crop&fp-x=0.8561&fp-y=0.8660&fp-z=4.0000&w=1200" alt="Step 25" loading="lazy">
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">25</span><h3>プレビューを閉じる</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/d799f610-97d3-40d7-8997-0204b1942c5d/80cf9b4f-4419-4d8f-84d1-6d3c7b7290b2.png?crop=focalpoint&fit=crop&fp-x=0.8561&fp-y=0.8660&fp-z=4.0000&w=1200" alt="Step 25">
   </div>
 
-  <!-- ===== Phase E: 更新して完成 ===== -->
-  <div class="phase-header" id="phase-e">
-    <div class="num">E</div>
+  <!-- 29: Phase E -->
+  <div class="slide slide-phase">
+    <div class="letter">E</div>
     <h2>更新して完成</h2>
-    <p>変更を保存してGPTを公開する</p>
+    <p>変更を保存してGPTを公開</p>
   </div>
 
-  <div class="step-card">
-    <div class="step-card-header"><span class="step-num">26</span><h3>「更新する」をクリック</h3></div>
-    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/a43293a3-895b-4e9e-9d39-cbb7e612979b/de9d7dbb-5751-4bf0-8f16-e014b1acbcd7.png?crop=focalpoint&fit=crop&fp-x=0.9532&fp-y=0.0361&fp-z=2.8035&w=1200" alt="Step 26" loading="lazy">
-    <div class="step-note">モデルや会話のきっかけを追加した後は「更新する」で反映。これでGPTが完成です</div>
+  <!-- 30: Step 26 -->
+  <div class="slide slide-step">
+    <div class="step-header"><span class="step-num">26</span><h3>「更新する」をクリック</h3></div>
+    <img src="https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/a43293a3-895b-4e9e-9d39-cbb7e612979b/de9d7dbb-5751-4bf0-8f16-e014b1acbcd7.png?crop=focalpoint&fit=crop&fp-x=0.9532&fp-y=0.0361&fp-z=2.8035&w=1200" alt="Step 26">
+    <div class="note">これでGPTが完成です！</div>
   </div>
 
-  <!-- ===== Tips ===== -->
-  <div class="phase-header" id="tips">
-    <div class="num">+</div>
-    <h2>活用のコツ</h2>
-    <p>効果的なGPT設計のポイント</p>
+  <!-- 31: Tips -->
+  <div class="slide slide-tip">
+    <h3>活用のコツ</h3>
+    <div class="tip-item"><strong>1タスク1GPT</strong><p>汎用より特化のほうが精度が高い</p></div>
+    <div class="tip-item"><strong>使いながら改善する</strong><p>完璧を目指さず、使って足りない指示を追記していく</p></div>
+    <div class="tip-item"><strong>会話のきっかけが鍵</strong><p>初見ユーザーが何を聞けばいいか迷わないように</p></div>
   </div>
 
-  <div class="tip-box">
-    <strong>1タスク1GPT</strong>
-    <p>汎用より特化のほうが精度が高い。「メール作成」「議事録要約」「コードレビュー」のように分ける</p>
-  </div>
-  <div class="tip-box">
-    <strong>使いながら改善する</strong>
-    <p>最初から完璧を目指さない。使ってみて足りない指示を追記していくのが最も効率的</p>
-  </div>
-  <div class="tip-box">
-    <strong>会話のきっかけが鍵</strong>
-    <p>初見のユーザーは何を聞けばいいかわからない。具体的な例文を設定して使い始めのハードルを下げる</p>
-  </div>
-
-  <!-- Example -->
-  <div class="example-card">
-    <h3>今回の作成例: ビジネスメール作成アシスタント</h3>
-    <dl class="example-meta">
-      <dt>Name</dt>
-      <dd>ビジネスメール作成アシスタント</dd>
-      <dt>Model</dt>
-      <dd>GPT-5.3 Instant</dd>
-      <dt>Description</dt>
-      <dd>用件を伝えるだけで件名+本文をセットで生成</dd>
-      <dt>Patterns</dt>
-      <dd>お礼・お詫び・依頼・催促など7パターン対応</dd>
+  <!-- 32: Example -->
+  <div class="slide slide-example">
+    <h3>今回の作成例</h3>
+    <dl>
+      <dt>Name</dt><dd>ビジネスメール作成アシスタント</dd>
+      <dt>Model</dt><dd>GPT-5.3 Instant</dd>
+      <dt>Description</dt><dd>用件を伝えるだけで件名+本文をセット生成</dd>
+      <dt>Patterns</dt><dd>お礼・お詫び・依頼・催促など7パターン対応</dd>
     </dl>
   </div>
 
-  <div class="cta">
+  <!-- 33: CTA -->
+  <div class="slide slide-cta">
     <h2>さっそく作ってみよう</h2>
-    <p>まずは自分の業務で繰り返しているタスクを1つ選んで、GPTにしてみましょう</p>
+    <p>自分の業務で繰り返しているタスクを1つ選んで、GPTにしてみましょう</p>
     <a href="https://chatgpt.com/gpts/mine" target="_blank">GPT作成画面を開く</a>
   </div>
 
 </div>
 
-<footer>
-  <div class="container">
-    Created with <a href="https://tango.ai" style="color:#666" target="_blank">Tango.ai</a> + Claude Code
+<!-- Navigation -->
+<div class="nav">
+  <button class="nav-btn" id="prev" onclick="go(-1)">&larr;</button>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+    <div class="progress-text" id="counter">1 / 34</div>
   </div>
-</footer>
+  <button class="nav-btn" id="next" onclick="go(1)">&rarr;</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const total = slides.length;
+  let current = 0;
+
+  function show(idx) {
+    if (idx < 0 || idx >= total) return;
+    slides[current].classList.remove('active');
+    current = idx;
+    slides[current].classList.add('active');
+    document.getElementById('progress').style.width = ((current + 1) / total * 100) + '%';
+    document.getElementById('counter').textContent = (current + 1) + ' / ' + total;
+    document.getElementById('prev').disabled = current === 0;
+    document.getElementById('next').disabled = current === total - 1;
+  }
+
+  function go(dir) { show(current + dir); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+    if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+    if (e.key === 'Home') { e.preventDefault(); show(0); }
+    if (e.key === 'End') { e.preventDefault(); show(total - 1); }
+  });
+
+  // Touch swipe
+  let tx = 0;
+  document.addEventListener('touchstart', e => { tx = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - tx;
+    if (Math.abs(dx) > 50) go(dx < 0 ? 1 : -1);
+  });
+
+  show(0);
+</script>
 
 </body>
 </html>
