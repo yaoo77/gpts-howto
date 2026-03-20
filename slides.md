@@ -1,6 +1,6 @@
 ---
 marp: true
-theme: uncover
+theme: default
 paginate: true
 backgroundColor: #ffffff
 color: #333333
