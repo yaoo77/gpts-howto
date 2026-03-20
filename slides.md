@@ -20,174 +20,103 @@ style: |
 
 <!-- _class: lead -->
 
-# GPTsの作り方
+# Google Chat Webhook の追加方法
 
-ChatGPTをカスタマイズして
-自分だけのAIアシスタントを作る全手順
+重要メール通知を Google Chat スペースに
+自動送信するための Webhook 設定手順
 
 ---
 
 <!-- _class: phase -->
 
 # A
-## GPT作成画面を開く
+## スペースの設定を開く
 
-ChatGPTのサイドバーからGPT作成画面へ
-
----
-
-### <span class="step-num">1</span> ChatGPTを開き、サイドバーを展開
-
-![w:800](https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/35159c15-923a-4a7e-a05e-25312e23673a/d9391e3e-ca4d-4637-9723-12d8d2cd6999.png?crop=focalpoint&fit=crop&fp-x=0.1037&fp-y=0.0335&fp-z=2.4476&w=1200)
-
-<div class="note">左上のアイコンでサイドバーを開く</div>
+Google Chat のスペースから設定画面へ
 
 ---
 
-### <span class="step-num">2</span> 「アプリ」をクリック
+### <span class="step-num">1</span> 「通知用」スペースをクリック
 
-![w:800](https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/6007d0fd-55cd-41c4-9462-dff4d8e2d36e/df6b1a9e-6c13-4ef6-b860-081a356c2150.png?crop=focalpoint&fit=crop&fp-x=0.1147&fp-y=0.2397&fp-z=1.9013&w=1200)
+![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/48542618-b1fb-442e-b155-d44caf6f66f7/6ed6414a-0603-42bb-b0ba-f6e10bb633d2.png?crop=focalpoint&fit=crop&fp-x=0.4155&fp-y=0.1237&fp-z=2.0536&w=1200)
 
----
-
-### <span class="step-num">3</span> 「GPT」セクションを展開
-
-![w:800](https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/1b5004f4-46e8-4fa9-a886-5366b4d00a13/bca5f1f0-0248-413c-abff-83846a3eb4fa.png?crop=focalpoint&fit=crop&fp-x=0.1200&fp-y=0.3918&fp-z=1.8638&w=1200)
-
-<div class="note">サイドバーの「GPT」をクリックしてGPT一覧を表示</div>
+<div class="note">通知を受け取りたいスペースを開く</div>
 
 ---
 
-### <span class="step-num">4</span> 「GPT を作成する」をクリック
+### <span class="step-num">2</span> 「アプリと統合」をクリック
 
-![w:800](https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/221cfd60-9342-45e9-a62e-b2e7cd870bba/5c0babd4-4e7f-4f08-85f2-4b3379532bf6.png?crop=focalpoint&fit=crop&fp-x=0.6152&fp-y=0.2088&fp-z=1.4022&w=1200)
+![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/c3e5cf73-f8b5-4bdd-b92a-d958b00ee5cd/818b4e67-45f8-416b-9ca6-86d34afbf914.png?crop=focalpoint&fit=crop&fp-x=0.4472&fp-y=0.4278&fp-z=1.8528&w=1200)
+
+<div class="note">スペースの設定メニューから「アプリと統合」を選択</div>
 
 ---
 
 <!-- _class: phase -->
 
 # B
-## 構成を設定する
+## Webhook を追加・保存
 
-名前・説明・指示（プロンプト）を入力
-
----
-
-### <span class="step-num">5</span> 「構成」タブをクリック
-
-![w:800](https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/247c61bb-6431-4b29-a755-f387af05637f/81624f54-6bc0-4ac4-b44c-12cd6c2d580c.png?crop=focalpoint&fit=crop&fp-x=0.3080&fp-y=0.1147&fp-z=2.3609&w=1200)
-
-<div class="note">「構成」タブなら直接入力で設定できます</div>
+Webhook 名を入力して保存
 
 ---
 
-### <span class="step-num">6</span> 名前・説明・指示を入力
+### <span class="step-num">3</span> 「Webhook を追加」をクリック
 
-![w:800](https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/5ce54c52-ea9a-46f7-a15a-6acf56adb026/7b50ccd5-de20-4db5-8772-b96c62f3d7cf.png?crop=focalpoint&fit=crop&fp-x=0.2502&fp-y=0.3479&fp-z=1.2833&w=1200)
+![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/fdb220d1-e3d6-4ebb-a4a2-6e76f81f2e98/8ac895f3-4edd-42ec-84e3-185a6924e9fa.png?crop=focalpoint&fit=crop&fp-x=0.8511&fp-y=0.7912&fp-z=4.0000&w=1200)
 
-<div class="note">指示欄にGPTの振る舞いを定義するプロンプトを書く</div>
+---
+
+### <span class="step-num">4</span> 名前に「重要メール通知」と入力
+
+![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/a13b28a1-4746-49a1-8714-9cffca805856/4c3d443a-fb7e-4a95-b0a4-807dfb02e5c3.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.4381&fp-z=1.3168&w=1200)
+
+<div class="note">用途がわかる名前を付ける</div>
+
+---
+
+### <span class="step-num">5</span> 「保存」をクリック
+
+![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/10d66124-c18b-4635-8f22-417a9ae739e0/80365166-985f-4b92-9152-393e8739b2c8.png?crop=focalpoint&fit=crop&fp-x=0.7361&fp-y=0.6598&fp-z=2.7635&w=1200)
 
 ---
 
 <!-- _class: phase -->
 
 # C
-## 公開・保存する
+## URL をコピー
 
-公開範囲を選んで保存
-
----
-
-### <span class="step-num">7</span> 右上の「作成する」をクリック
-
-![w:800](https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/84438e6d-8e5a-477a-afe0-01ebb68588c2/31221f83-1f80-416d-9bc0-7ed9a958f719.png?crop=focalpoint&fit=crop&fp-x=0.9532&fp-y=0.0361&fp-z=2.8035&w=1200)
+Webhook の URL を取得して連携に使用
 
 ---
 
-### <span class="step-num">8</span> 公開範囲を選んで「保存する」
+### <span class="step-num">6</span> Webhook のオプションメニューを開く
 
-![w:800](https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/16893220-f400-4c70-89bd-6c3c9774fb11/3a401104-d626-4fd0-8c3c-29602b4fe12b.png?crop=focalpoint&fit=crop&fp-x=0.6478&fp-y=0.6765&fp-z=2.6355&w=1200)
+![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/36604b31-5866-43a7-a5de-804b7f9c34bc/b4df50c8-e13a-4479-8981-1aa58fbde9b4.png?crop=focalpoint&fit=crop&fp-x=0.9114&fp-y=0.9278&fp-z=4.0000&w=1200)
 
-<div class="note">「リンクを受け取った人」なら共有リンクで誰でも使えます</div>
-
----
-
-### <span class="step-num">9</span> 保存完了 - リンクをコピー
-
-![w:800](https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/c9e4a6e1-5688-432d-9c1d-a0229f8875c5/49e165de-0f8e-4ad6-8de8-beafed1f9a04.png?crop=focalpoint&fit=crop&fp-x=0.6734&fp-y=0.3892&fp-z=2.8035&w=1200)
+<div class="note">保存した Webhook の右側にあるメニューアイコンをクリック</div>
 
 ---
 
-<!-- _class: phase -->
+### <span class="step-num">7</span> 「URL をコピー」をクリック
 
-# D
-## モデル・詳細設定
+![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/164e7870-bec4-4522-a4fd-777ccdde7bf2/09d03f6e-a6cb-4b8b-a033-31461d000eab.png?crop=focalpoint&fit=crop&fp-x=0.8529&fp-y=0.7990&fp-z=4.0000&w=1200)
 
-推奨モデルと会話のきっかけを追加
-
----
-
-### <span class="step-num">10</span> 「モデル」をクリック
-
-![w:800](https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/f04ae688-f004-4005-a1c5-40e570bada9c/19423f20-7a9b-4b60-812d-21f56533672e.png?crop=focalpoint&fit=crop&fp-x=0.8186&fp-y=0.1211&fp-z=2.8035&w=1200)
-
----
-
-### <span class="step-num">11</span> 「Instant」を選択
-
-![w:800](https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/831f5631-d283-4744-9a00-420985cb4384/f23cc2ba-fa84-4b92-b81c-a13433a9e9dd.png?crop=focalpoint&fit=crop&fp-x=0.8588&fp-y=0.2313&fp-z=2.6594&w=1200)
-
-<div class="note">定型タスク → Instant（高速） / 推論タスク → Thinking</div>
-
----
-
-### <span class="step-num">12</span> 会話のきっかけを入力
-
-![w:800](https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/4672b686-49b7-4ab1-b562-77cbc2d395c4/e43db45b-656e-4215-b0f0-7279c1dfb32c.png?crop=focalpoint&fit=crop&fp-x=0.4722&fp-y=0.5786&fp-z=3.0218&w=1200)
-
-<div class="note">具体的なユースケースを3つ程度設定</div>
-
----
-
-<!-- _class: phase -->
-
-# E
-## 更新して完成
-
-変更を保存してGPTを公開
-
----
-
-### <span class="step-num">13</span> 「更新する」をクリック
-
-![w:800](https://images.tango.us/workflows/08149c0c-4567-4234-8b7b-682a5b3dfed0/steps/a43293a3-895b-4e9e-9d39-cbb7e612979b/de9d7dbb-5751-4bf0-8f16-e014b1acbcd7.png?crop=focalpoint&fit=crop&fp-x=0.9532&fp-y=0.0361&fp-z=2.8035&w=1200)
-
-<div class="note">これでGPTが完成！</div>
+<div class="note">コピーした URL を GAS やスクリプトに貼り付けて使用</div>
 
 ---
 
 ### 活用のコツ
 
-- **1タスク1GPT** — 汎用より特化のほうが精度が高い
-- **使いながら改善** — 完璧を目指さず足りない指示を追記
-- **会話のきっかけが鍵** — 初見ユーザーが迷わない例文を設定
-
----
-
-### 今回の作成例
-
-| 項目 | 内容 |
-|------|------|
-| Name | ビジネスメール作成アシスタント |
-| Model | GPT-5.3 Instant |
-| Description | 用件を伝えるだけで件名+本文をセット生成 |
-| Patterns | お礼・お詫び・依頼・催促など7パターン |
+- **1スペース1用途** — 通知の種類ごとにスペースを分けると見やすい
+- **Webhook URL は秘密情報** — 知っている人は誰でも投稿できるので漏洩注意
+- **GAS と組み合わせ** — Gmail の重要メールを自動で Chat に転送できる
 
 ---
 
 <!-- _class: lead -->
 
-# さっそく作ってみよう
+# これで Webhook 設定完了
 
-自分の業務で繰り返しているタスクを1つ選んで
-GPTにしてみましょう
+コピーした URL を GAS や自動化ツールに
+貼り付けて通知を飛ばしましょう
