@@ -2,20 +2,18 @@
 marp: true
 theme: uncover
 paginate: true
-backgroundColor: #0d0d0d
-color: #e0e0e0
+backgroundColor: #ffffff
+color: #333333
 style: |
   section { font-family: 'Noto Sans JP', 'Helvetica Neue', sans-serif; }
-  section.lead h1 { font-size: 64px; color: #fff; }
-  section.lead p { color: #888; }
-  section.phase { justify-content: center; }
-  section.phase h1 { font-size: 120px; color: #1a1a1a; margin-bottom: -20px; font-family: 'Courier New', monospace; }
-  section.phase h2 { font-size: 40px; color: #fff; }
-  section.phase p { color: #666; }
-  h3 { color: #fff; }
-  img { border-radius: 12px; border: 1px solid #222; }
-  .note { background: #141414; border-left: 3px solid #333; padding: 8px 16px; border-radius: 0 8px 8px 0; font-size: 14px; color: #999; margin-top: 8px; }
-  .step-num { display: inline-block; background: #fff; color: #000; width: 32px; height: 32px; text-align: center; line-height: 32px; border-radius: 6px; font-weight: 800; font-size: 14px; margin-right: 8px; }
+  section.lead { background: #f8f9fa; }
+  section.lead h1 { font-size: 64px; color: #1a73e8; }
+  section.lead p { color: #666; }
+  h3 { color: #333; }
+  strong { color: #1a73e8; }
+  img { border-radius: 12px; border: 1px solid #e0e0e0; }
+  .note { background: #f0f4ff; border-left: 3px solid #1a73e8; padding: 8px 16px; border-radius: 0 8px 8px 0; font-size: 14px; color: #555; margin-top: 8px; }
+  .step-num { display: inline-block; background: #1a73e8; color: #fff; width: 32px; height: 32px; text-align: center; line-height: 32px; border-radius: 6px; font-weight: 800; font-size: 14px; margin-right: 8px; }
 ---
 
 <!-- _class: lead -->
