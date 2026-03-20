@@ -27,7 +27,7 @@ style: |
 
 ### <span class="step-num">1</span> 「通知用」スペースをクリック
 
-![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/48542618-b1fb-442e-b155-d44caf6f66f7/6ed6414a-0603-42bb-b0ba-f6e10bb633d2.png?crop=focalpoint&fit=crop&fp-x=0.4155&fp-y=0.1237&fp-z=2.0536&w=1200)
+![w:800](images/step-2.png)
 
 <div class="note">通知を受け取りたいスペースを開く</div>
 
@@ -35,7 +35,7 @@ style: |
 
 ### <span class="step-num">2</span> 「アプリと統合」をクリック
 
-![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/c3e5cf73-f8b5-4bdd-b92a-d958b00ee5cd/818b4e67-45f8-416b-9ca6-86d34afbf914.png?crop=focalpoint&fit=crop&fp-x=0.4472&fp-y=0.4278&fp-z=1.8528&w=1200)
+![w:800](images/step-3.png)
 
 <div class="note">スペースの設定メニューから「アプリと統合」を選択</div>
 
@@ -43,13 +43,13 @@ style: |
 
 ### <span class="step-num">3</span> 「Webhook を追加」をクリック
 
-![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/fdb220d1-e3d6-4ebb-a4a2-6e76f81f2e98/8ac895f3-4edd-42ec-84e3-185a6924e9fa.png?crop=focalpoint&fit=crop&fp-x=0.8511&fp-y=0.7912&fp-z=4.0000&w=1200)
+![w:800](images/step-4.png)
 
 ---
 
 ### <span class="step-num">4</span> 名前に「重要メール通知」と入力
 
-![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/a13b28a1-4746-49a1-8714-9cffca805856/4c3d443a-fb7e-4a95-b0a4-807dfb02e5c3.png?crop=focalpoint&fit=crop&fp-x=0.5000&fp-y=0.4381&fp-z=1.3168&w=1200)
+![w:800](images/step-5.png)
 
 <div class="note">用途がわかる名前を付ける</div>
 
@@ -57,13 +57,13 @@ style: |
 
 ### <span class="step-num">5</span> 「保存」をクリック
 
-![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/10d66124-c18b-4635-8f22-417a9ae739e0/80365166-985f-4b92-9152-393e8739b2c8.png?crop=focalpoint&fit=crop&fp-x=0.7361&fp-y=0.6598&fp-z=2.7635&w=1200)
+![w:800](images/step-6.png)
 
 ---
 
 ### <span class="step-num">6</span> Webhook のオプションメニューを開く
 
-![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/36604b31-5866-43a7-a5de-804b7f9c34bc/b4df50c8-e13a-4479-8981-1aa58fbde9b4.png?crop=focalpoint&fit=crop&fp-x=0.9114&fp-y=0.9278&fp-z=4.0000&w=1200)
+![w:800](images/step-7a.png)
 
 <div class="note">保存した Webhook の右側にあるメニューアイコンをクリック</div>
 
@@ -71,7 +71,7 @@ style: |
 
 ### <span class="step-num">7</span> 「URL をコピー」をクリック
 
-![w:800](https://images.tango.us/workflows/ecff9b15-76cd-440d-9f92-0b102b01785a/steps/164e7870-bec4-4522-a4fd-777ccdde7bf2/09d03f6e-a6cb-4b8b-a033-31461d000eab.png?crop=focalpoint&fit=crop&fp-x=0.8529&fp-y=0.7990&fp-z=4.0000&w=1200)
+![w:800](images/step-7b.png)
 
 <div class="note">コピーした URL を GAS やスクリプトに貼り付けて使用</div>
 
